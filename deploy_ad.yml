@@ -8,7 +8,7 @@
 
   - name: Promote Server to Domain Controller
     microsoft.ad.domain:
-      domain_name: "arasaka.com"
+      dns_domain_name: "arasaka.com"
       safe_mode_password: "Password123!"
     register: status
   
@@ -22,6 +22,4 @@
       firstname: "John"
       surname: "Smith"
       password: "Password123!"
-      # This makes the user vulnerable to AS-REP Roasting
-      attributes:
-        userAccountControl: 4194304
+      state: present
