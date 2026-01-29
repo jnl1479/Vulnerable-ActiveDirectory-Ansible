@@ -7,15 +7,14 @@
       state: present
 
   - name: Promote Server to Domain Controller
-    microsoft.ad.domain_controller:
+    microsoft.ad.domain:
       domain_name: "arasaka.com"
       safe_mode_password: "Password123!"
-      state: domain_controller
-    register: ad_promotion
+    register: status
   
   - name: Reboot after promotion
     ansible.windows.win_reboot:
-    when: ad_promotion.reboot_required
+    when: status.reboot_required
   
   - name: Create a vulnerable user (AS-REP Roasting candidate)
     microsoft.ad.user:
