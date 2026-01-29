@@ -1,0 +1,11 @@
+- name: Deploy Vulnerable AD User
+  hosts: windows
+  vars_files: vars/variables.yml
+  tasks:
+    - name: Create a vulnerable user (AS-REP Roasting candidate)
+      community.windows.win_domain_user:
+        name: "{{ vuln_user }}"
+        password: "{{ vuln_passwd }}"
+        state: present
+        attributes:
+          userAccountControl: 66048

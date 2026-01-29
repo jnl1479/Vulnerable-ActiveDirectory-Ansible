@@ -1,5 +1,6 @@
 - name: Deploy Vulnerable AD
   hosts: windows
+  vars_files: vars/variables.yml
   tasks:
   - name: Install Active Directory Domain Services
     ansible.windows.win_feature:
@@ -8,18 +9,10 @@
 
   - name: Promote Server to Domain Controller
     microsoft.ad.domain:
-      dns_domain_name: "arasaka.com"
-      safe_mode_password: "Password123!"
+      dns_domain_name: "{{ domain_name }}"
+      safe_mode_password: "{{ domain_passwd }}"
     register: status
   
   - name: Reboot after promotion
     ansible.windows.win_reboot:
     when: status.reboot_required
-  
-  - name: Create a vulnerable user (AS-REP Roasting candidate)
-    microsoft.ad.user:
-      name: "jsmith"
-      firstname: "John"
-      surname: "Smith"
-      password: "Password123!"
-      state: present
