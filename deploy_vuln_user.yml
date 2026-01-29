@@ -2,6 +2,7 @@
   hosts: windows
   vars_files: vars/variables.yml
   tasks:
+      # Pre-Authentication is turned off for this user
     - name: Create a vulnerable user (AS-REP Roasting candidate)
       community.windows.win_domain_user:
         name: "{{ vuln_user }}"
