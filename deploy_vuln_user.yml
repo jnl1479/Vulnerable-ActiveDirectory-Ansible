@@ -2,11 +2,25 @@
   hosts: windows
   vars_files: vars/variables.yml
   tasks:
-      # Pre-Authentication is turned off for this user
-    - name: Create a vulnerable user (AS-REP Roasting candidate)
-      community.windows.win_domain_user:
-        name: "{{ vuln_user }}"
-        password: "{{ vuln_passwd }}"
-        state: present
-        attributes:
-          userAccountControl: 66048
+  # Pre-Authentication is turned off for this user
+  - name: Create a vulnerable user (AS-REP Roasting candidate)
+    community.windows.win_domain_user:
+      name: "{{ vuln_user }}"
+      password: "{{ vuln_passwd }}"
+      state: present
+      attributes:
+        userAccountControl: 66048
+
+  - name: Create the GPO Managers group
+    community.windows.win_domain_group:
+      name: "{{ vuln_group }}"
+      scope: global
+      category: security
+      state: present
+
+  - name: Add user to the vulnerable group
+    community.windows.win_domain_group_membership:
+      name: "{{ vuln_group }}"
+      members:
+        - "{{ vuln_user }}"
+      state: present

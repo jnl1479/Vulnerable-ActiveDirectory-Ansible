@@ -1,6 +1,5 @@
 domain_name: "arasaka.com"
 domain_passwd: "Password123!"
 vuln_user: "jsmith"
-vuln_firstname: "John"
-vuln_surname: "Smith"
 vuln_passwd: "Password123!"
+vuln_group: "Arasaka_Managers"
