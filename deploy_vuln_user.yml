@@ -24,3 +24,10 @@
       members:
         - "{{ vuln_user }}"
       state: present
+
+  - name: Grant Group Admin rights via Membership
+    community.windows.win_domain_group_membership:
+      name: "Administrators"
+      members:
+        - "{{ vuln_group }}"
+      state: present
