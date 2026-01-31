@@ -1,3 +1,5 @@
+# Install and create an Active Directory Domain on the target Windows Server
+# Reboot after completion for changes to take effect
 - name: Deploy Vulnerable AD
   hosts: windows
   vars_files: vars/variables.yml

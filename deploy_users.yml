@@ -1,8 +1,11 @@
+# Create 4 users in the domain, 2 are benign
+# One user misconfigured to not require a password and hints toward another user
+# One user configured to not require pre-authentication and has Administrator privileges
 - name: Deploy AD Users
   hosts: windows
   vars_files: vars/variables.yml
   tasks:
-  # Pre-Authentication is turned off for this user
+# Pre-Authentication is turned off for this user
   - name: Create a vulnerable user (AS-REP Roasting candidate)
     community.windows.win_domain_user:
       name: "{{ vuln_user }}"
@@ -52,12 +55,14 @@
         userAccountControl: 544
       state: present
 
+# Misconf user description includes hint toward AS-REP roasting user
   - name: Set hint on the misconf_user account
     microsoft.ad.user:
       name: "{{ misconf_user }}"
       description: "LOG: Connected to Arasaka_Sync_Node. Legacy tunnel active for UID: sarasaka. Do not reset pre-auth flag."
       state: present
 
+# Vuln user description confirms AS-REP roasting
   - name: Set technical breadcrumb on the vuln_user
     microsoft.ad.user:
       name: "{{ vuln_user }}"
