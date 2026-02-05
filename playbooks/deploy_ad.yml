@@ -14,6 +14,31 @@
       dns_domain_name: "{{ domain_name }}"
       safe_mode_password: "{{ domain_passwd }}"
     register: status
+
+  - name: Allow Active Directory and Kerberos Ports
+    community.windows.win_firewall_rule:
+      name: "{{ item }}"
+      enable: yes
+      state: present
+      action: allow
+      direction: in
+      protocol: any
+    loop:
+      - "Domain Controller - Kerberos (TCP-In)"
+      - "Domain Controller - LDAP (TCP-In)"
+      - "Domain Controller - DNS (UDP-In)"
+
+  - name: Install DNS Role
+    microsoft.ad.windows_feature:
+      name: DNS
+      state: present
+
+  - name: Ensure the DC points to itself for DNS
+    ansible.windows.win_dns_client:
+      adapter_names: "*"
+      ipv4_addresses:
+        - 127.0.0.1
+        - 10.0.1.35
   
   - name: Reboot after promotion
     ansible.windows.win_reboot:
