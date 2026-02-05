@@ -55,7 +55,7 @@ User Provisioning: Creates rbartmoss and sarasaka with the specific vulnerable a
 
 Security Policy Modification: Specifically disables Kerberos pre-authentication for the sarasaka account and sets a weak, crackable password for the AS-REP roast challenge. Configure the rbartmoss account to not require a password. 
 
-Troubleshooting
+# Troubleshooting
 WinRM Connection Refused: Ensure the ConfigureRemoting.ps1 script has been run on the Windows target to allow Ansible management.
 
 Hashcat "Device Not Found": If running in a VM, ensure you use the --force flag as outlined in the Exploitation Guide to utilize the CPU.
